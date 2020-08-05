@@ -1,5 +1,10 @@
 import cheerio from 'cheerio';
 
+/*
+  Service responsible for receiving an html file and returning all existing
+  links in the body.
+*/
+
 class LoadLinksFromHtmlService {
   public async execute(html: string): Promise<string[] | undefined> {
     let $ = cheerio.load(html);

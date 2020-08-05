@@ -6,7 +6,6 @@ services:
     container_name: ibm-test-api
     volumes: [.:/home/node/api/]
     environment:
-      DATABASE_URL: 'postgres://postgres:docker@db:5432/db_ibmtest'
       DB_HOST: db-postgres
       DB_USER: postgres
       DB_PASS: docker
@@ -14,7 +13,6 @@ services:
       - '3333:3333'
     depends_on:
       - db-postgres
-    command: yarn typeormPrd migration:run
     networks: [ibm-test-network]
 
   db-postgres:
@@ -26,7 +24,7 @@ services:
       POSTGRES_DB: 'db_urllinks'
     restart: unless-stopped
     ports:
-      - 5432:5432
+      - '5432:5432'
     volumes:
       - postgres-data:/data
     networks: [ibm-test-network]

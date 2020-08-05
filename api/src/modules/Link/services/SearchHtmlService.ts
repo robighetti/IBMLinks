@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+/*
+  Service responsible for making a connection via axes in the informed url
+  using the get method to return an html.
+*/
+
 class CreateCrawlerService {
   public async execute(url: string): Promise<string> {
     try {

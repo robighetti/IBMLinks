@@ -7,6 +7,11 @@ import ListAllLinksService from '@modules/Link/services/ListAllLinksService';
 import SearchHtmlService from '@modules/Link/services/SearchHtmlService';
 import LoadLinksFromHtmlService from '@modules/Link/services/LoadLinksFromHtmlService';
 
+/*
+  ile that instantiates services to perform dependency injection and
+  redirect each route to your specific service.
+*/
+
 const loadHtml = async (url: string): Promise<string> => {
   const searchHtml = container.resolve(SearchHtmlService);
   return await searchHtml.execute(url);

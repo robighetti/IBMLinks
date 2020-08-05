@@ -6,6 +6,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+/*
+  Model file that instantiates the fields in the 'links' table
+*/
+
 @Entity('links')
 class Link {
   @PrimaryGeneratedColumn('uuid')

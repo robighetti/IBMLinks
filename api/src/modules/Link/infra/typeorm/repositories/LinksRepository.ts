@@ -7,6 +7,11 @@ interface ICreate {
   url: string;
 }
 
+/*
+  Class responsible for storing all methods of the typeorm that makes the
+  connection to the postgres database
+*/
+
 class LinksRepository implements ILinksRepository {
   private ormRepository: Repository<Link>;
 

@@ -7,6 +7,11 @@ interface ICreate {
   url: string;
 }
 
+/*
+  Service responsible for recording data in the repository,
+  it does the inversion of responsibility and the injection of dependency.
+*/
+
 @injectable()
 class CreateLinksService {
   constructor(

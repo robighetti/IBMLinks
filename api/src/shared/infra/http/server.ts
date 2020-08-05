@@ -6,6 +6,10 @@ import '@shared/containers';
 
 import routes from './routes';
 
+/*
+  Main file that mounts the http server
+*/
+
 const app = express();
 
 app.use(cors({ origin: 'http://localhost:3000' }));
