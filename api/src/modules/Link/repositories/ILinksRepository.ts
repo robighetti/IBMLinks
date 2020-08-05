@@ -6,5 +6,6 @@ interface ICreate {
 
 export default interface ILinksRepository {
   listAllLinks(): Promise<Link[] | undefined>;
-  create({ url }: ICreate): Promise<void>;
+  create({ url }: ICreate): Promise<Link>;
+  findUrl(url: string): Promise<Link | undefined>;
 }

@@ -10,7 +10,7 @@ class CreateCrawlerService {
 
       return Promise.resolve(response.data);
     } catch (err) {
-      return Promise.reject(err);
+      throw new Error(err.message);
     }
   }
 }

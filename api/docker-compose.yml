@@ -1,0 +1,39 @@
+version: '3'
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    container_name: ibm-test-api
+    volumes: [.:/home/node/api/]
+    environment:
+      DATABASE_URL: 'postgres://postgres:docker@db:5432/db_ibmtest'
+      DB_HOST: db-postgres
+      DB_USER: postgres
+      DB_PASS: docker
+    ports:
+      - '3333:3333'
+    depends_on:
+      - db-postgres
+    command: yarn typeormPrd migration:run
+    networks: [ibm-test-network]
+
+  db-postgres:
+    image: postgres
+    container_name: db_ibmtest
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'docker'
+      POSTGRES_DB: 'db_urllinks'
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/data
+    networks: [ibm-test-network]
+
+volumes:
+  postgres-data:
+
+networks:
+  ibm-test-network:
+    driver: bridge

@@ -14,12 +14,20 @@ class LinksRepository implements ILinksRepository {
     this.ormRepository = getRepository(Link);
   }
 
-  public async create({ url }: ICreate): Promise<ICreate> {
+  public async create({ url }: ICreate): Promise<Link> {
     const linkData = this.ormRepository.create({ url });
 
     await this.ormRepository.save(linkData);
 
-    return { url };
+    return linkData;
+  }
+
+  public async findUrl(url: string): Promise<Link | undefined> {
+    const urlData = await this.ormRepository.findOne({
+      where: { url },
+    });
+
+    return urlData;
   }
 
   public async listAllLinks(): Promise<Link[] | undefined> {

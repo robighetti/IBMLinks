@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
+import Link from '@modules/Link/infra/typeorm/entities/Link';
 import CreateLinkService from '@modules/Link/services/CreateLinkService';
 import ListAllLinksService from '@modules/Link/services/ListAllLinksService';
 import SearchHtmlService from '@modules/Link/services/SearchHtmlService';
@@ -16,7 +17,7 @@ const loadLinks = async (html: string): Promise<string[] | undefined> => {
   return await loadLinks.execute(html);
 };
 
-const saveLinks = async (url: string): Promise<void> => {
+const saveLinks = async (url: string): Promise<Link> => {
   const linksCreate = container.resolve(CreateLinkService);
   return await linksCreate.execute({ url });
 };
@@ -31,22 +32,26 @@ class LinksController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const linksCreate = container.resolve(CreateLinkService);
+    try {
+      const linksCreate = container.resolve(CreateLinkService);
 
-    const { url } = request.body;
+      const { url } = request.body;
 
-    await linksCreate.execute({ url });
+      await linksCreate.execute({ url });
 
-    const html = await loadHtml(url);
-    const links = await loadLinks(html);
+      const html = await loadHtml(url);
+      const links = await loadLinks(html);
 
-    if (links) {
-      for (let url of links) {
-        await saveLinks(url);
+      if (links) {
+        for (let url of links) {
+          await saveLinks(url);
+        }
       }
-    }
 
-    return response.send();
+      return response.json({ url, links });
+    } catch (err) {
+      return response.json({ error: err.message });
+    }
   }
 }
 
