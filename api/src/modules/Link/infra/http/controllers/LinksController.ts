@@ -22,6 +22,25 @@ const loadLinks = async (html: string): Promise<string[] | undefined> => {
   return await loadLinks.execute(html);
 };
 
+const fn = async (url: string): Promise<string[] | undefined> => {
+  const linksCreate = container.resolve(CreateLinkService);
+  const searchHtml = container.resolve(SearchHtmlService);
+  const loadLinks = container.resolve(LoadLinksFromHtmlService);
+
+  await linksCreate.execute({ url });
+  await searchHtml.execute(url);
+  const html = await searchHtml.execute(url);
+  const links = await loadLinks.execute(html);
+
+  if (links) {
+    for (let url of links) {
+      await linksCreate.execute({ url });
+    }
+  }
+
+  return;
+};
+
 const saveLinks = async (url: string): Promise<Link> => {
   const linksCreate = container.resolve(CreateLinkService);
   return await linksCreate.execute({ url });
@@ -49,7 +68,7 @@ class LinksController {
 
       if (links) {
         for (let url of links) {
-          await saveLinks(url);
+          await fn(url);
         }
       }
 

@@ -75,11 +75,7 @@ const Home: React.FC = () => {
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <strong>Digite a url de pesquisa</strong>
-          <Input
-            name="search"
-            icon={FiSearch}
-            placeholder="Digite sua pesquisa aqui"
-          />
+          <Input name="search" icon={FiSearch} placeholder="Digite sua url" />
 
           <Button type="submit">Buscar</Button>
         </Form>

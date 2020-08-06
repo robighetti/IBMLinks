@@ -15,7 +15,7 @@ export const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 
   h1 {
     color: #6c63ff;
@@ -40,7 +40,7 @@ export const Sidebar = styled.div`
     align-items: center;
 
     > strong {
-      font-size: 24px;
+      font-size: 18px;
       margin-bottom: 24px;
     }
   }
