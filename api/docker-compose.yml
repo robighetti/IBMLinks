@@ -9,6 +9,7 @@ services:
       DB_HOST: db-postgres
       DB_USER: postgres
       DB_PASS: docker
+      DB_DATABASE: db_urllinks
     ports:
       - '3333:3333'
     depends_on:
