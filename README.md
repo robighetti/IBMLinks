@@ -29,7 +29,16 @@ $ docker-compose up --build
 
 The entire project is containerized, that is, by running the command above, the entire environment will be created automatically.
 
-❗To run the application, the application runs on port 3333 and 3000, so make sure it is free for use).
+❗❗ To run the application, the application runs on port 3333 and 3000, so make sure it is free for use).
+
+
+
+❗ after running the docker compose up just run the migrations, to do this follow the steps below:
+
+* Enter the ormconfig.json file
+* Change HOST to localhost
+* Open the terminal and run:
+ - yarn typeorm migration: run
 
 ```
 
