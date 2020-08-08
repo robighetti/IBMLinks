@@ -12,19 +12,27 @@ describe('CreateLinkService', () => {
 
   it('should be able to create a new url', async () => {
     const link = await createLink.execute({
-      url: 'thaisfantasias.com.br',
+      url: 'ibm.com',
     });
 
     expect(link).toHaveProperty('id');
     expect(link).toHaveProperty('url');
   });
 
-  it('should not be able to create two same urls', async () => {
-    const linkTest = 'thaisfantasias.com.br';
+  it('should not be able to save without url', async () => {
+    const url = '';
 
-    await createLink.execute({
-      url: linkTest,
-    });
+    await expect(createLink.execute({ url })).rejects.toBeInstanceOf(Error);
+  });
+
+  it('should not be able to save localhost using protocol', async () => {
+    const url = 'http://localhost';
+
+    await expect(createLink.execute({ url })).rejects.toBeInstanceOf(Error);
+  });
+
+  it('should not be able to save localhost url', async () => {
+    const linkTest = 'localhost';
 
     await expect(
       createLink.execute({

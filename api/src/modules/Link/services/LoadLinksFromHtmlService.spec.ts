@@ -17,4 +17,10 @@ describe('LoadLinksFromHtmlService', () => {
 
     expect(links).toBeInstanceOf(Array);
   });
+
+  it('should to return error if html is wrong', async () => {
+    const html = 'ha ha ha ha ha ha';
+
+    await expect(loadLinksFromHtml.execute(html)).rejects.toBeInstanceOf(Error);
+  });
 });

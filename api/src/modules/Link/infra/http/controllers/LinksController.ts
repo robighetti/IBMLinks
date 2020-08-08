@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import Link from '@modules/Link/infra/typeorm/entities/Link';
 import CreateLinkService from '@modules/Link/services/CreateLinkService';
 import ListAllLinksService from '@modules/Link/services/ListAllLinksService';
 import SearchHtmlService from '@modules/Link/services/SearchHtmlService';
 import LoadLinksFromHtmlService from '@modules/Link/services/LoadLinksFromHtmlService';
+import AppError from '@shared/error/AppError';
 
 /*
   ile that instantiates services to perform dependency injection and
@@ -29,6 +29,7 @@ const fn = async (url: string): Promise<string[] | undefined> => {
 
   await linksCreate.execute({ url });
   await searchHtml.execute(url);
+
   const html = await searchHtml.execute(url);
   const links = await loadLinks.execute(html);
 
@@ -41,18 +42,17 @@ const fn = async (url: string): Promise<string[] | undefined> => {
   return;
 };
 
-const saveLinks = async (url: string): Promise<Link> => {
-  const linksCreate = container.resolve(CreateLinkService);
-  return await linksCreate.execute({ url });
-};
-
 class LinksController {
   public async listAll(_: Request, response: Response): Promise<Response> {
-    const linksService = container.resolve(ListAllLinksService);
+    try {
+      const linksService = container.resolve(ListAllLinksService);
 
-    const links = await linksService.execute();
+      const links = await linksService.execute();
 
-    return response.json(links);
+      return response.json(links);
+    } catch (err) {
+      throw new AppError(err.message);
+    }
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -67,14 +67,14 @@ class LinksController {
       const links = await loadLinks(html);
 
       if (links) {
-        for (let url of links) {
-          await fn(url);
+        for (let link of links) {
+          await linksCreate.execute({ url: link });
         }
       }
 
       return response.json({ url, links });
     } catch (err) {
-      return response.json({ error: err.message });
+      return response.status(400).json({ err: err.message });
     }
   }
 }

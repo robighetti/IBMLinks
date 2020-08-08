@@ -1,5 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
+import AppError from '@shared/error/AppError';
+
 import Link from '@modules/Link/infra/typeorm/entities/Link';
 
 import ILinksRepository from '@modules/Link/repositories/ILinksRepository';
