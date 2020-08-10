@@ -55,14 +55,37 @@ const Home: React.FC = () => {
     return url;
   }, []);
 
+  const validUrl = useCallback(async (str) => {
+    let pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i',
+    ); // fragment locator
+
+    const UrlValid = pattern.test(str);
+
+    return UrlValid;
+  }, []);
+
   const handleSubmit = useCallback(async (data: IFormData) => {
-    setRefresh(true);
-    const url = await getUrl(`http://${data.search}`);
-    if (!url) return null;
+    if (data.search) {
+      if (await validUrl(data.search)) {
+        setRefresh(true);
 
-    await api.post('/links', { url });
+        const url = await getUrl(`http://${data.search}`);
+        if (!url) {
+          setRefresh(false);
+          return null;
+        }
 
-    setRefresh(false);
+        await api.post('/links', { url });
+        setRefresh(false);
+      }
+    }
   }, []);
 
   return (
@@ -85,7 +108,9 @@ const Home: React.FC = () => {
           {links.map((url) => (
             <li key={url.id}>
               <div>
-                <a href="#">{url.url}</a>
+                <a href={url.url} target="_blank">
+                  {url.url}
+                </a>
               </div>
             </li>
           ))}
