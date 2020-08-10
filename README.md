@@ -2,6 +2,10 @@
   <strong>IBM CHALLENGE ✍</strong>
 </h1>
 
+<p align="center">
+  <img src="./assets/linkfinder.png" />
+</p>
+
 <h3 align="center">
   Link Finder was the challenge proposed by IBM in the selection process.
   <p>Candidate ➡ Rodrigo Bighetti</p>
@@ -50,6 +54,8 @@ The entire project is containerized, that is, by running the command above, the 
 "express": "^4.17.1",
 "express-async-errors": "^3.1.1",
 "pg": "^8.3.0",
+"ts-node": "^8.10.2",
+"ts-node-dev": "^1.0.0-pre.56",
 "tsyringe": "^4.3.0",
 "typeorm": "^0.2.25",
 "uuidv4": "^6.2.1"
@@ -73,6 +79,14 @@ The entire project is containerized, that is, by running the command above, the 
 - npm instal - faz a instalação de todas as dependências.
 - npm run start (to run the FRONTEND on port 3333).
 
-## Author
+# Using the application
+
+<p align="left">To find your links just type in your url in the textbox and click the button</p>
+
+<p align="center">
+  <img src="assets/linkfinder.gif" />
+</p>
+
+# Author
 
 - **Rodrigo Bighetti** - _Full-Stack developer_ - [GitHub profile](https://github.com/robighetti)
